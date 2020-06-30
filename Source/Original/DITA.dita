@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA Reference//EN" "../dtd/reference.dtd">
+<reference id="IssueNumber00"> 
+  <title>DITA Proposed Feature # NN</title> 
+  <shortdesc>Allow window specifications for display of online content to be
+	 defined in the ditamap. 
+  </shortdesc> 
+  <refbody> 
+	 <section id="section_50BE9235910D4737914520C550625E97"> 
+		<title>Longer description</title> 
+		<p>When a Help system is invoked from an application, it is desirable to
+		  specify the size, position and behaviour of the window displaying the Help
+		  content. Some Help Application Programming Interfaces (APIs) provide for a
+		  window name to be passed in the Help call. In some cases, the definition for
+		  the window of the called window definition will be embedded in the Help system.
+		  In other cases, the complete window definition information will be passed in
+		  the Help call itself. 
+		</p> 
+		<p>To cater for Help systems with embedded window information, it is
+		  important to define that information in the ditamap being processed, so that
+		  the processor can incorporate the definitions in the generated output file. 
+		</p> 
+		<p>This proposal suggests adding a 
+		  <synph>ua-window</synph> element, valid within the 
+		  <synph>map</synph> element. The 
+		  <synph>ua-window</synph> element would contain optional attributes of 
+		  <synph>id</synph>, 
+		  <synph>name</synph>, 
+		  <synph>top</synph>, 
+		  <synph>left</synph>, 
+		  <synph>height</synph>, 
+		  <synph>width</synph>, 
+		  <synph>on-top</synph>, 
+		  <synph>features</synph>, 
+		  <synph>relative</synph>, and 
+		  <synph>full-screen</synph>. None, one or many 
+		  <synph>ua-window</synph> elements would be permitted within the parent
+		  element. The 
+		  <synph>relative</synph> attribute is a Boolean flag used to indicate
+		  whether the window dimensions are relative to the calling window, or are
+		  absolute positions. 
+		</p> 
+		<p>Example of markup: 
+		  <codeblock>&lt;map title="Widget Help"&gt;
+<b>&lt;ua-window id="fg23" name="csh" top="10" left="20" height="400" width="500" 
+   features="status=yes,toolbar=no,menubar=no,location=no" relative="true",
+   full-screen="no" /&gt;</b>
+ &lt;topicref href="file_ops.dita" type="concept"&gt;
+   &lt;topicref href="saving.dita" type="task" /&gt;
+   &lt;topicref href="deleting.dita" type="task" /&gt;
+   &lt;topicref href="editing.dita" type="task"&gt;
+     &lt;topicmeta&gt;
+       &lt;help help-id="5432" help-string="idh_fileedit" help-window="ua"  /&gt;
+     &lt;topicmeta&gt;
+   &lt;/topicref&gt;
+&lt;/topicref&gt;
+&lt;/map&gt;</codeblock> 
+		</p> 
+	 </section> 
+	 <section id="section_AAF68E088B9E4908AF2D343E925A5F83"> 
+		<title>Scope</title> 
+		<p>The 
+		  <synph>ua-window</synph> element cannot be easily specialised from an
+		  existing element. 
+		</p> 
+	 </section> 
+	 <section id="section_5D88DFEBC3C74691A42CA47B0D0AD6B8"> 
+		<title>Use Case</title> 
+		<p>A Help author is creating a Help system for a software application,
+		  which will provide field-level user assistance. The developers are implementing
+		  a Help API, which takes parameters of 
+		  <parmname>help file name</parmname>, 
+		  <parmname>opening mode</parmname>, (optional) 
+		  <parmname>topic number</parmname> and (optional) 
+		  <parmname>window descriptor</parmname>. The window descriptor is used
+		  to define the dimensions and other characateristics of the window into which a
+		  Help topic will display. The Help author wants to control the window
+		  descriptor, rather than the developer, as the window characteristics are
+		  dependent upon the nature of the topic content. The Help author therefore must
+		  create and store keyed window definitions at the publication (ditamap) level,
+		  and pass the window descriptor (keys) to the developer for integration with the
+		  application code.
+		</p> 
+	 </section> 
+	 <section id="section_F8E907AA4C8A41468262E9112A535C70"> 
+		<title>Technical Requirements</title> 
+		<p>If implemented as a specialisation, new DTD/Schema files and
+		  alterations to the topic shells would be required. Toolkit implementations need
+		  to modify the map2hhp and similar collection (book) level transforms. A related
+		  new 
+		  <synph>ua-context</synph> element with a 
+		  <synph>ua-window</synph> attribute would be required. The 
+		  <synph>features</synph> attribute is modelled on the JavaScript 
+		  <cmdname>window.Open</cmdname> method parameters. 
+		</p> 
+	 </section> 
+	 <section id="section_F8DA8530AAA744E79A7ABCD9F3D73BDA"> 
+		<title>Costs</title> 
+		<p>Publishing tool changes could be implemented as XSL-T additions, at a
+		  relatively low (and one-off) cost. Authoring tool changes would only be
+		  required to provide an interface for the defining window descriptors and
+		  characteristics, at a relatively low cost. 
+		</p> 
+	 </section> 
+	 <section id="section_7707F247EEA24733BF14B7D1488FCD67"> 
+		<title>Benefits</title> 
+		<p>Post-processing of Help outputs generated from DITA source would no
+		  longer be required, and window metadata could be maintained within the DITA
+		  source rather than outside it. 
+		</p> 
+	 </section> 
+	 <section id="section_B67A478981014715962EF6F2FFEB61AD"> 
+		<title>Time Required</title> 
+		<p>Unknown. 
+		</p> 
+	 </section> 
+  </refbody> 
+</reference> 
